@@ -55,7 +55,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtTokenFilter
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // A origem do seu app Flutter (verifique a porta no seu navegador)
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5000")); 
+        configuration.setAllowedOrigins(Arrays.asList("*")); 
         // Métodos HTTP permitidos
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         // Cabeçalhos permitidos
