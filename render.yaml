@@ -1,15 +1,13 @@
 services:
   - type: pserv
     name: pettour-database
-    env: postgres
-    plan: free 
+    plan: free
+    env: docker
 
   - type: web
     name: pettour-api
-    env: java
+    env: docker
     plan: free
-    buildCommand: ./render-build.sh
-    startCommand: "java -jar target/api-0.0.1-SNAPSHOT.jar"
     envVars:
       - key: SPRING_DATASOURCE_URL
         fromDatabase:
