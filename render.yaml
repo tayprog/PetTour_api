@@ -9,9 +9,9 @@ services:
 
   # Serviço da API Java (Web Service)
   - type: web
-    name: pettour_api
+    name: pettour-api # <-- NOME CORRIGIDO AQUI
     env: java
-    javaVersion: 17 # <-- Define explicitamente a versão do Java
+    javaVersion: 17 # Define explicitamente a versão do Java
     plan: free
     buildCommand: "./mvnw clean install"
     startCommand: "java -jar target/api-0.0.1-SNAPSHOT.jar"
