@@ -1,0 +1,24 @@
+services:
+  # Serviço do Banco de Dados PostgreSQL
+  - type: pserv
+    name: pettour-database
+    env: postgres
+    plan: free
+    # Verifique no Render qual a versão mais recente que eles suportam
+    postgresMajorVersion: 16
+
+  # Serviço da API Java (Web Service)
+  - type: web
+    name: pettour_api
+    env: java
+    javaVersion: 17 # <-- Define explicitamente a versão do Java
+    plan: free
+    buildCommand: "./mvnw clean install"
+    startCommand: "java -jar target/api-0.0.1-SNAPSHOT.jar"
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: pettour-database # O mesmo nome que demos ao serviço do banco acima
+          property: internalUrl
+      - key: JWT_SECRET
+        sync: false # Pede para o valor ser inserido manualmente no painel
