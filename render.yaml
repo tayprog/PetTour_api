@@ -2,8 +2,7 @@ services:
   - type: pserv
     name: pettour-database
     env: postgres
-    plan: free
-    postgresVersion: 16  
+    plan: free 
 
   - type: web
     name: pettour-api
