@@ -1,23 +1,20 @@
 services:
-  # Serviço do Banco de Dados PostgreSQL
   - type: pserv
     name: pettour-database
     env: postgres
     plan: free
-    postgresMajorVersion: 16
+    postgresVersion: 16  
 
-  # Serviço da API Java (Web Service)
   - type: web
     name: pettour-api
     env: java
-    javaVersion: 17
     plan: free
-    buildCommand: "./mvnw clean install"
+    buildCommand: ./render-build.sh
     startCommand: "java -jar target/api-0.0.1-SNAPSHOT.jar"
     envVars:
       - key: SPRING_DATASOURCE_URL
         fromDatabase:
           name: pettour-database
-          property: internalUrl
+          property: connectionString
       - key: JWT_SECRET
         sync: false
