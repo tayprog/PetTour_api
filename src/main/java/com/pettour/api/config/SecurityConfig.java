@@ -37,13 +37,13 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtTokenFilter
                     .requestMatchers("/auth/**").permitAll()
                     .requestMatchers("/h2-console/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/servicos").permitAll()
-                    
+
                     // --- REGRAS DE ADMIN (Apenas quem tem a ROLE_ADMIN) ---
                     .requestMatchers(HttpMethod.POST, "/servicos").hasRole("ADMIN") 
                     .requestMatchers(HttpMethod.PUT, "/servicos/**").hasRole("ADMIN") 
                     .requestMatchers(HttpMethod.DELETE, "/servicos/**").hasRole("ADMIN") 
                     .requestMatchers(HttpMethod.PATCH, "/agendamentos/{id}/concluir").hasRole("ADMIN")
-                    
+
                     // --- REGRAS DE USUÁRIO LOGADO (Qualquer usuário autenticado) ---
                     .anyRequest().authenticated() 
             )
@@ -60,7 +60,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtTokenFilter
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         // Cabeçalhos permitidos
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-        
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); // Aplica a configuração a todas as rotas
         return source;

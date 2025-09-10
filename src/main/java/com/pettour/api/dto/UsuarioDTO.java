@@ -24,7 +24,7 @@ public record UsuarioDTO(
     String numero,
 
     String complemento,
-    
+
     @NotBlank(message = "O bairro é obrigatório.")
     String bairro
 ) {

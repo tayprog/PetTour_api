@@ -10,7 +10,8 @@ public record LoginResponseDTO(
     String logradouro,
     String numero,
     String complemento,
-    String bairro
+    String bairro,
+    String role
 ) {
     // Construtor para facilitar a criação do DTO a partir do token e do usuário
     public LoginResponseDTO(String token, Usuario usuario) {
@@ -22,7 +23,8 @@ public record LoginResponseDTO(
             usuario.getLogradouro(),
             usuario.getNumero(),
             usuario.getComplemento(),
-            usuario.getBairro()
+            usuario.getBairro(),
+            usuario.getRole()
         );
     }
 }

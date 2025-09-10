@@ -43,7 +43,7 @@ public class Usuario implements UserDetails {
     private String numero;
     private String complemento;
     private String bairro;
-    
+
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pet> pets;

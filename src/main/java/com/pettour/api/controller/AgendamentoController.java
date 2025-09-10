@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ import com.pettour.api.service.AgendamentoService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/agendamentos")
 public class AgendamentoController {
@@ -39,7 +41,7 @@ public class AgendamentoController {
     public ResponseEntity<AgendamentoDetalhesDTO> agendar(@RequestBody @Valid AgendamentoDTO dados, Authentication authentication, UriComponentsBuilder uriBuilder) {
         Usuario usuarioLogado = (Usuario) authentication.getPrincipal();
         var agendamento = agendamentoService.agendar(dados, usuarioLogado);
-        
+
         URI uri = uriBuilder.path("/agendamentos/{id}").buildAndExpand(agendamento.getId()).toUri();
         return ResponseEntity.created(uri).body(new AgendamentoDetalhesDTO(agendamento));
     }
@@ -51,7 +53,7 @@ public class AgendamentoController {
             .stream()
             .map(AgendamentoDetalhesDTO::new)
             .toList();
-        
+
         return ResponseEntity.ok(lista);
     }
 
@@ -70,7 +72,7 @@ public class AgendamentoController {
         var agendamento = agendamentoService.concluir(id);
         return ResponseEntity.ok(new AgendamentoDetalhesDTO(agendamento));
     }
-    
+
     @GetMapping("/horarios-disponiveis")
     public ResponseEntity<List<LocalTime>> listarHorariosDisponiveis(
         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {

@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import com.pettour.api.service.UsuarioService;
 
 import jakarta.validation.Valid;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/auth")
 public class AutenticacaoController {
@@ -36,20 +38,20 @@ public class AutenticacaoController {
     @Transactional // Adicionado por ser uma boa prática em operações de escrita
     public ResponseEntity<Usuario> registrar(@Valid @RequestBody UsuarioDTO dados) {
         System.out.println(">>> [API RECEBEU] DTO de Registro: " + dados.toString());
-        
+
         //construtor que já define a role como ROLE_USER
         // Correção: Acessa os campos do record diretamente (ex: dados.nome())
         Usuario novoUsuario = new Usuario(dados.nome(), 
         dados.email(), 
         dados.senha()
         );
-        
+
         // Atribui os dados de endereço ao objeto antes de salvar
         novoUsuario.setLogradouro(dados.logradouro());
         novoUsuario.setNumero(dados.numero());
         novoUsuario.setComplemento(dados.complemento());
         novoUsuario.setBairro(dados.bairro());
-        
+
         Usuario usuarioSalvo = usuarioService.criarUsuario(novoUsuario);
         return ResponseEntity.ok(usuarioSalvo);
     }
@@ -58,7 +60,7 @@ public class AutenticacaoController {
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO dados) {
         var authenticationToken = new UsernamePasswordAuthenticationToken(dados.getEmail(), dados.getSenha());
         var authentication = authenticationManager.authenticate(authenticationToken);
-        
+
         var usuario = (Usuario) authentication.getPrincipal();
         var tokenJWT = tokenService.gerarToken(usuario);
 
